@@ -1,0 +1,38 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:ChatApp">
+
+    <Color x:Key="BackgroundLight">#efefef</Color>
+    <SolidColorBrush x:Key="BackgroundLightBrush" Color="{StaticResource BackgroundLight}" />
+
+    <Color x:Key="BackgroundLighter">#fafafa</Color>
+    <SolidColorBrush x:Key="BackgroundLighterBrush" Color="{StaticResource BackgroundLighter}" />
+
+    <Color x:Key="ForegroundMain">#686868</Color>
+    <SolidColorBrush x:Key="ForegroundMainBrush" Color="{StaticResource ForegroundMain}" />
+
+    <Color x:Key="LightBlue">#cbe6ef</Color>
+    <SolidColorBrush x:Key="LightBlueBrush" Color="{StaticResource LightBlue}" />
+
+    <Color x:Key="ForegroundDark">#000000</Color>
+    <SolidColorBrush x:Key="ForegroundDarkBrush" Color="{StaticResource ForegroundDark}" />
+
+    <Color x:Key="ForegroundLight">#ffffff</Color>
+    <SolidColorBrush x:Key="ForegroundLightBrush" Color="{StaticResource ForegroundLight}" />
+
+    <Color x:Key="BackgroundGreen">#32a852</Color>
+    <SolidColorBrush x:Key="BackgroundGreenBrush" Color="{StaticResource BackgroundGreen}" />
+
+    <Color x:Key="SemiTransparentTitle">#30cfcfc4</Color>
+    <SolidColorBrush x:Key="SemiTransparentTitleBrush" Color="{StaticResource SemiTransparentTitle}" />
+
+    <Color x:Key="TransparentGreen">#0032a852</Color>
+    <SolidColorBrush x:Key="TransparentGreenBrush" Color="{StaticResource TransparentGreen}" />
+
+    <Color x:Key="BackgroundDarkGreen">#006400</Color>
+    <SolidColorBrush x:Key="BackgroundDarkGreenBrush" Color="{StaticResource BackgroundDarkGreen}" />
+
+    <Color x:Key="BackgroundLightGreen">#90ee90</Color>
+    <SolidColorBrush x:Key="BackgroundLightGreenBrush" Color="{StaticResource BackgroundLightGreen}" />
+</ResourceDictionary>

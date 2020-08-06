@@ -1,0 +1,66 @@
+﻿<UserControl
+    x:Class="ChatApp.SideMenuControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ChatApp"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.Template>
+        <ControlTemplate TargetType="UserControl">
+
+            <!--  side menu  -->
+            <Border Grid.Column="0" Background="{StaticResource ForegroundLightBrush}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!--  top menu  -->
+                    <Grid
+                        Grid.Column="0"
+                        Height="50"
+                        Background="{StaticResource BackgroundGreenBrush}">
+
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  Buttons  -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <Button Content="{StaticResource ChatIcon}" Style="{StaticResource IconButton}" />
+                            <Button Content="{StaticResource FriendIcon}" Style="{StaticResource IconButton}" />
+                            <Button Content="{StaticResource PictureIcon}" Style="{StaticResource IconButton}" />
+                        </StackPanel>
+
+                        <!--  Settings button  -->
+                        <Button
+                            Grid.Column="2"
+                            Command="{Binding SettingsViewModel.OpenCommand, Source={x:Static local:ViewModelLocator.Instance}}"
+                            Content="{StaticResource SettingsIcon}"
+                            Style="{StaticResource IconButton}" />
+                    </Grid>
+
+                    <!--  content the user select gets injected here  -->
+                    <ContentPresenter Grid.Row="1" />
+
+                </Grid>
+            </Border>
+
+        </ControlTemplate>
+
+    </UserControl.Template>
+
+
+
+
+
+
+</UserControl>

@@ -1,0 +1,29 @@
+﻿<local:BaseDialogUserControl
+    x:Class="ChatApp.DialogMessageBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ChatApp"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    MaxWidth="500"
+    mc:Ignorable="d">
+    <StackPanel>
+        <TextBlock
+            Margin="20,50,20,50"
+            HorizontalAlignment="Center"
+            FontFamily="{StaticResource Roboto-Regular}"
+            FontSize="{StaticResource FontSizeRegular}"
+            Foreground="{StaticResource ForegroundMainBrush}"
+            Text="{Binding Message}"
+            TextWrapping="Wrap" />
+        <Button
+            Margin="10"
+            HorizontalAlignment="Center"
+            Command="{Binding CloseCommand, RelativeSource={RelativeSource AncestorType=local:BaseDialogUserControl}}"
+            Content="{Binding OkText}"
+            FontFamily="{StaticResource Roboto-Regular}"
+            FontSize="{StaticResource FontSizeSmall}"
+            IsCancel="True"
+            IsDefault="True" />
+    </StackPanel>
+</local:BaseDialogUserControl>
