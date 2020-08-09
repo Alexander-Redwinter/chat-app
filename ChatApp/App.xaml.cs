@@ -1,5 +1,6 @@
 ﻿using ChatApp.Core;
 using ChatApp.IoC;
+using Ninject.Infrastructure.Language;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -22,7 +23,6 @@ namespace ChatApp
 
             ApplicationSetup();
 
-
             Current.MainWindow = new MainWindow();
             Current.MainWindow.Show();
         }
@@ -32,9 +32,19 @@ namespace ChatApp
 
             Container.Setup();
 
+
+            Container.Kernel.Bind<ILogFactory>().ToConstant(new BaseLogFactory(new[]
+            {
+                new FileLogger("log.txt"),
+            }));
+            
+            Container.Kernel.Bind<ITaskManager>().ToConstant(new TaskManager());
+
+            Container.Kernel.Bind<IFileManager>().ToConstant(new FileManager());
+
             Container.Kernel.Bind<IUIManager>().ToConstant(new UIManager());
 
-            Container.Kernel.Bind<ILogFactory>().ToConstant(new BaseLogFactory());
+            Container.Logger.Log("Application starting");
 
         }
     }

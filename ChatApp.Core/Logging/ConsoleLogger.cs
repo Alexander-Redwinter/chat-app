@@ -6,7 +6,9 @@ namespace ChatApp.Core
     {
         public void Log(string message, LogLevel level)
         {
-            Console.WriteLine($"[{level}]".ToString().PadRight(11, ' ') + "message");
+            var currentTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+
+            Console.WriteLine($"[{level.ToString()}] [{currentTime}] { message}");
         }
     }
 }

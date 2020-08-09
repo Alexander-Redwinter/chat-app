@@ -12,6 +12,11 @@ namespace ChatApp.Core
 
         private static SemaphoreSlim SelfLock = new SemaphoreSlim(1, 1);
 
+        internal static Task AwaitAsync(string v)
+        {
+            throw new NotImplementedException();
+        }
+
         private static Dictionary<string, SemaphoreSlim> Semaphores = new Dictionary<string, SemaphoreSlim>();
 
         public static async Task<T> AwaitResultAsync<T>(string key, Func<Task<T>> task, int maxAccessCount = 1)

@@ -15,13 +15,18 @@ namespace ChatApp.Core
         bool IncludeLogOriginDetails { get; set; } = true;
         public LogOutputLevel LogOutputLevel { get; set; }
 
-        public event Action<(string Message, LogLevel Level)> NewLog = (details) => {};
+        public event Action<(string Message, LogLevel Level)> NewLog = (details) => { };
 
-        public BaseLogFactory()
+        public BaseLogFactory(ILogger[] loggers = null)
         {
             AddLogger(new ConsoleLogger());
-        }
 
+            if (loggers != null)
+                foreach (var logger in loggers)
+                {
+                    AddLogger(logger);
+                }
+        }
         public void AddLogger(ILogger logger)
         {
             lock (loggersLock)
@@ -49,10 +54,10 @@ namespace ChatApp.Core
 
             if (IncludeLogOriginDetails)
                 message = $"{Path.GetFileName(filePath)} {origin}() Line:{lineNumber}{System.Environment.NewLine}{message}";
-            
+
             loggers.ForEach(l => l.Log(message, level));
 
-            NewLog.Invoke((message,level));
+            NewLog.Invoke((message, level));
         }
     }
 }
