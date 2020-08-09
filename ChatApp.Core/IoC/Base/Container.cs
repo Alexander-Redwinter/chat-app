@@ -16,6 +16,7 @@ namespace ChatApp.Core
 
         public static ApplicationViewModel Application => Container.Get<ApplicationViewModel>();
 
+        public static ILogFactory Logger => Container.Get<ILogFactory>();
         public static void Setup()
         {
             BindViewModels();

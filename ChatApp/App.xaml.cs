@@ -22,6 +22,7 @@ namespace ChatApp
 
             ApplicationSetup();
 
+
             Current.MainWindow = new MainWindow();
             Current.MainWindow.Show();
         }
@@ -32,6 +33,8 @@ namespace ChatApp
             Container.Setup();
 
             Container.Kernel.Bind<IUIManager>().ToConstant(new UIManager());
+
+            Container.Kernel.Bind<ILogFactory>().ToConstant(new BaseLogFactory());
 
         }
     }
