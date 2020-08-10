@@ -24,7 +24,7 @@ namespace ChatApp.Core
 
                 thumbnailUrl = value;
 
-                Task.Delay(2000).ContinueWith(t => LocalFilePath = "/img/matsuri4.png");
+                Task.Delay(500).ContinueWith(t => LocalFilePath = "/img/matsuri4.png");
                 //TODO download image
                 // save file to local storage cache
                 // set local file path value

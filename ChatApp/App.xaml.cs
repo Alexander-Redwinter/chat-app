@@ -1,6 +1,7 @@
 ﻿using ChatApp.Core;
 using ChatApp.IoC;
 using Ninject.Infrastructure.Language;
+using Cornerstone;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,13 +30,16 @@ namespace ChatApp
 
         private void ApplicationSetup()
         {
+            //Setup the Cornerstone framework
+            Framework.Startup();
+
 
             Container.Setup();
 
 
             Container.Kernel.Bind<ILogFactory>().ToConstant(new BaseLogFactory(new[]
             {
-                new FileLogger("log.txt"),
+                new ChatApp.Core.FileLogger("oldLog.txt"),
             }));
             
             Container.Kernel.Bind<ITaskManager>().ToConstant(new TaskManager());

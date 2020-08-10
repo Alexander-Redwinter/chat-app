@@ -53,6 +53,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChatApp.Core\ChatApp.Core.csproj" />
+    <ProjectReference Include="..\Cornerstone\Cornerstone.csproj" />
   </ItemGroup>
 
   <ItemGroup>

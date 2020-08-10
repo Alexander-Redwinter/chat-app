@@ -11,7 +11,6 @@ namespace ChatApp.Core
         protected List<ILogger> loggers = new List<ILogger>();
 
         protected object loggersLock = new object();
-
         bool IncludeLogOriginDetails { get; set; } = true;
         public LogOutputLevel LogOutputLevel { get; set; }
 
