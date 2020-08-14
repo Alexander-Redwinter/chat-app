@@ -5,6 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using System;
+using Microsoft.IdentityModel.Tokens;
+using System.Transactions;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ChatApp.WebServer
 {
@@ -12,7 +18,7 @@ namespace ChatApp.WebServer
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Container.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -22,12 +28,33 @@ namespace ChatApp.WebServer
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(Container.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Container.Configuration["Jwt:Issuer"],
+                        ValidAudience = Container.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Container.Configuration["Jwt:SecretKey"]))
+                    };
+                });
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/login";
+                options.ExpireTimeSpan = new TimeSpan(7,0,0,0);
+            });
 
             services.AddControllersWithViews();
         }
