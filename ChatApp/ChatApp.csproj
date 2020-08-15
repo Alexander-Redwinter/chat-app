@@ -46,13 +46,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cornerstone" Version="1.0.0" />
     <PackageReference Include="Ninject" Version="3.3.4" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.2.8" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Cornerstone\Cornerstone.csproj" />
     <ProjectReference Include="..\ChatApp.Core\ChatApp.Core.csproj" />
   </ItemGroup>
 

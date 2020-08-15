@@ -31,8 +31,7 @@ namespace ChatApp
         private void ApplicationSetup()
         {
             //Setup the Cornerstone framework
-            Framework.Startup();
-            //new DefaultFrameworkConstruction().AddFileLogger().Build();
+            new DefaultFrameworkConstruction().UseFileLogger().Build();
 
             Container.Setup();
 

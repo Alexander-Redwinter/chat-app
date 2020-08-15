@@ -25,6 +25,8 @@ namespace ChatApp.WebServer
 
         public IActionResult Index()
         {
+            //TODO remove work time db creation
+            _context.Database.EnsureCreated();
 
             return View();
         }
@@ -59,8 +61,10 @@ namespace ChatApp.WebServer
             var task = await _userManager.CreateAsync(new ApplicationUser
             {
                 UserName = "Redwinter",
-                Email = "Redwinter@Redwinter.com"
-            },"redredred");
+                Email = "Redwinter@Redwinter.com",
+                FirstName = "Alexander",
+                LastName = "Redwinter"
+            },"redredred10_YYaa");
 
             if (task.Succeeded)
             {

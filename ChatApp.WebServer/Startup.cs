@@ -11,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Transactions;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Xml.Serialization;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace ChatApp.WebServer
 {
@@ -56,6 +58,12 @@ namespace ChatApp.WebServer
                 options.ExpireTimeSpan = new TimeSpan(7,0,0,0);
             });
 
+            services.AddMvc(options =>
+            {
+                options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
+                options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+
+            });
             services.AddControllersWithViews();
         }
 

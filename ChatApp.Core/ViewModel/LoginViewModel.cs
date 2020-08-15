@@ -2,6 +2,9 @@
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Cornerstone;
+using ChatApp.Core.ViewModel;
+using ChatApp.Core.Security;
 
 namespace ChatApp.Core
 {
@@ -29,21 +32,51 @@ namespace ChatApp.Core
 
         public async Task Login(object parameter)
         {
+
             await RunCommand(() => this.IsLoginRunning, async () =>
             {
-
-                //(parameter as IHavePassword).SecurePassword.Unsecure();
-                //TODO actual login
-                Container.Settings.Name = new TextEntryViewModel() { Label = "Name", OriginalText = "Alexander Redwinter" };
-                Container.Settings.Username = new TextEntryViewModel() { Label = "Username", OriginalText = "Redwinter" };
-                Container.Settings.Password = new PasswordEntryViewModel() { Label = "Password", Display = "***" };
-                Container.Settings.Email = new TextEntryViewModel() { Label = "Email", OriginalText = "querty@qwerty.com" };
-
-
                 Container.Get<ApplicationViewModel>().IsGifHidden = false;
-                await Task.Delay(500);
-                Container.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Chat);
+
+                var result = await WebRequests.PostAsync<ApiResponse<LoginResultApiModel>>("http://localhost:5000/api/login", new LoginCredentialApiModel
+                {
+                    UsernameOrEmail = Email,
+                    Password = (parameter as IHavePassword).SecurePassword.Unsecure()
+                });
+
+                if (result == null || result.ServerResponse == null || !result.ServerResponse.Successful)
+                {
+                    //TODO Localize
+                    var message = "Unknown error";
+                    if (result?.ServerResponse != null)
+                        message = result.ServerResponse.ErrorMessage;
+                    else if (string.IsNullOrWhiteSpace(result?.RawServerResponse))
+                        message = $"Unexpected response {result.RawServerResponse}";
+                    else if (result != null)
+                        message = $"Failed to communicate {result.StatusCode} {result.StatusDescription}";
+
+                    await Container.UI.ShowMessage(new MessageBoxViewModel
+                    {
+                        //TODO Localize
+                        Title = "Login Failed",
+                        Message = message
+
+                    }) ;
+
+                    Container.Get<ApplicationViewModel>().IsGifHidden = true;
+                    return;
+                }
+
+
+                var userData = result.ServerResponse.Response;
+
+                //TODO actual login
+                Container.Settings.Name = new TextEntryViewModel() { Label = "Name", OriginalText = $"{userData.FirstName} {userData.LastName}" };
+                Container.Settings.Username = new TextEntryViewModel() { Label = "Username", OriginalText = userData.Username };
+                Container.Settings.Password = new PasswordEntryViewModel() { Label = "Password", Display = "***" };
+                Container.Settings.Email = new TextEntryViewModel() { Label = "Email", OriginalText = userData.Email};
+
                 Container.Get<ApplicationViewModel>().IsGifHidden = true;
+                Container.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Chat);
 
             });
 
