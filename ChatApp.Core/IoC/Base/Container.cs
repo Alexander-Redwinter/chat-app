@@ -1,4 +1,5 @@
 ﻿using ChatApp.Core.DataModels;
+using Cornerstone;
 using Ninject;
 using System;
 
@@ -21,6 +22,8 @@ namespace ChatApp.Core
         public static IFileManager File => Container.Get<IFileManager>();
 
         public static ITaskManager Task => Container.Get<ITaskManager>();
+
+        public static IClientDataStore ClientDataStore => Framework.Service<IClientDataStore>();
 
         public static void Setup()
         {

@@ -73,7 +73,7 @@
                             VerticalAlignment="Top"
                             CornerRadius="8">
                             <Border.Background>
-                                <ImageBrush ImageSource="/img/matsuri4.png" Stretch="UniformToFill" />
+                                <ImageBrush ImageSource="/img/matsuri4.jpg" Stretch="UniformToFill" />
                             </Border.Background>
                         </Border>
 

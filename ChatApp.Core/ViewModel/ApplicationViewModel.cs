@@ -15,7 +15,7 @@ namespace ChatApp.Core
 
         public bool IsGifHidden { get; set; } = true;
 
-        internal void GoToPage(ApplicationPage page, BaseViewModel viewModel = null)
+        public void GoToPage(ApplicationPage page, BaseViewModel viewModel = null)
         {
 
             IsSettingsMenuExpanded = false;

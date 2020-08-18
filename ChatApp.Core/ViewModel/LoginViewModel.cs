@@ -69,11 +69,16 @@ namespace ChatApp.Core
 
                 var userData = result.ServerResponse.Response;
 
-                //TODO actual login
-                Container.Settings.Name = new TextEntryViewModel() { Label = "Name", OriginalText = $"{userData.FirstName} {userData.LastName}" };
-                Container.Settings.Username = new TextEntryViewModel() { Label = "Username", OriginalText = userData.Username };
-                Container.Settings.Password = new PasswordEntryViewModel() { Label = "Password", Display = "***" };
-                Container.Settings.Email = new TextEntryViewModel() { Label = "Email", OriginalText = userData.Email};
+                await Container.ClientDataStore.SaveLoginCredentialsAsync(new LoginCredentialsDataModel
+                {
+                    Email = userData.Email,
+                    FirstName = userData.FirstName,
+                    LastName = userData.LastName,
+                    Username = userData.Username,
+                    Token = userData.Token
+                });
+
+                Container.Settings.Load();
 
                 Container.Get<ApplicationViewModel>().IsGifHidden = true;
                 Container.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Chat);

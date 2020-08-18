@@ -1,5 +1,6 @@
 ﻿using ChatApp.Core.DataModels;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ChatApp.Core
@@ -13,6 +14,7 @@ namespace ChatApp.Core
         public ICommand LogoutCommand { get; set; }
         public ICommand ClearUserDataCommand { get; set; }
 
+        public ICommand LoadCommand { get; set; }
 
         public TextEntryViewModel Name { get; set; }
         public TextEntryViewModel Username { get; set; }
@@ -26,31 +28,27 @@ namespace ChatApp.Core
             OpenCommand = new RelayCommand(Open);
             LogoutCommand = new RelayCommand(Logout);
             ClearUserDataCommand = new RelayCommand(ClearUserData);
+            LoadCommand = new RelayCommand(Load);
 
             //TODO Localize
             LogoutButtonText = "Logout";
 
-            //TODO remove this design time data
-            Name = new TextEntryViewModel()
+          
+        }
+
+        public void Load()
+        {
+            Task.Run(async () =>
             {
-                Label = "Name",
-                OriginalText = "Alexander Redwinter"
-            };
-            Username = new TextEntryViewModel()
-            {
-                Label = "Username",
-                OriginalText = "Redwinter"
-            };
-            Password = new PasswordEntryViewModel()
-            {
-                Label = "Password",
-                Display = "***"
-            };
-            Email = new TextEntryViewModel()
-            {
-                Label = "Email",
-                OriginalText = "qwerty@qwerty.com"
-            };
+                 var credentials = await Container.ClientDataStore.GetLoginCredentialsAsync();
+
+                Name = new TextEntryViewModel() { Label = "Name", OriginalText = $"{credentials.FirstName} {credentials.LastName}" };
+                Username = new TextEntryViewModel() { Label = "Username", OriginalText = credentials.Username };
+                Password = new PasswordEntryViewModel() { Label = "Password", Display = "***" };
+                Email = new TextEntryViewModel() { Label = "Email", OriginalText = credentials.Email };
+
+
+            });
         }
 
         private void Open()
