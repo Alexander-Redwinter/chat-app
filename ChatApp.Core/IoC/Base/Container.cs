@@ -25,6 +25,9 @@ namespace ChatApp.Core
 
         public static IClientDataStore ClientDataStore => Framework.Service<IClientDataStore>();
 
+        public static ChatClientService ClientService => Container.Get<ChatClientService>();
+
+
         public static void Setup()
         {
             BindViewModels();
@@ -34,7 +37,7 @@ namespace ChatApp.Core
         {
             Kernel.Bind<ApplicationViewModel>().ToConstant(new ApplicationViewModel());
             Kernel.Bind<SettingsViewModel> ().ToConstant(new SettingsViewModel());
-
+            Kernel.Bind<ChatClientService>().ToConstant(new ChatClientService());
         }
 
         public static T Get<T>()

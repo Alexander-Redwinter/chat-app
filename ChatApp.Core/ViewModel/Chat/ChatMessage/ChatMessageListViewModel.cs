@@ -119,7 +119,7 @@ namespace ChatApp.Core
 
         private void HidePopups() => AttachmentMenuVisible = false;
 
-        public void Send()
+        public async void Send()
         {
             if (string.IsNullOrEmpty(PendingMessageText))
                 return;
@@ -140,10 +140,25 @@ namespace ChatApp.Core
                 NewItem = true
             };
 
-            Items.Add(message);
+            //Proper places for these
+            //TODO add disable send button while text is in flight
+            try
+            {
+                await Container.ClientService.Connect();
+
+                Container.ClientService.Send(PendingMessageText);
+
+            }
+            catch(Exception ex)
+            {
+                await Container.UI.ShowMessage(new MessageBoxViewModel() { Message = ex.Message});
+            }
+
             FilteredItems.Add(message);
 
             PendingMessageText = string.Empty;
+
         }
+
     }
 }

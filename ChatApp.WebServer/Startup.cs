@@ -13,6 +13,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Http;
 
 namespace ChatApp.WebServer
 {
@@ -47,6 +48,8 @@ namespace ChatApp.WebServer
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Container.Configuration["Jwt:SecretKey"]))
                     };
                 });
+            services.AddCors()
+                    .AddSignalR();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -70,31 +73,56 @@ namespace ChatApp.WebServer
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
-            if (env.IsDevelopment())
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //    app.UseHsts();
+            //}
+            //app.UseHttpsRedirection();
+            //app.UseStaticFiles();
+
+            //app.UseRouting();
+
+            //app.UseAuthorization();
+            app.UseCors(options =>
             {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                options.WithOrigins("null")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
             });
+            app.UseSignalR(endpoints =>
+            {
+                endpoints.MapHub<ChatHub>("/chat");
+
+            });
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapHub<ChatHub>("/chat");
+            //});
+        }
+        public static void PrintRequestParam(HttpContext context)
+        {
+            Console.WriteLine("Request Method: " + context.Request.Method);
+            Console.WriteLine("Request Protocol: " + context.Request.Protocol);
+            if (context.Request.Headers != null)
+            {
+                foreach (var h in context.Request.Headers)
+                {
+                    Console.WriteLine($"--> {h.Key} : {h.Value}");
+                }
+            }
+
         }
     }
 }
+
+

@@ -14,10 +14,6 @@ using System.Threading.Tasks;
 
 namespace ChatApp.WebServer
 {
-
-
-
-
     public class ApiController : Controller
     {
         private readonly ApplicationDbContext _context;
