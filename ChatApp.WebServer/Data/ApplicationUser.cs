@@ -2,9 +2,11 @@
 
 namespace ChatApp.WebServer
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string WebsocketId { get; set; }
+        
     }
 }
